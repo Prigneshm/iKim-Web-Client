@@ -1,0 +1,79 @@
+﻿@model IKimWebConsole.Domain.OrderLineLister
+
+<div class="card-header">
+    <div class="d-flex justify-content-between align-items-center w-100">
+
+        <!-- LEFT BACK -->
+        <a href="@Url.Action("Index", "Order")" class="btn btn-light"> <i class="fas fa-arrow-left"></i> Back </a>
+
+        <!-- RIGHT ADD CALL -->
+        <a href="javascript:void(0)" class="btn btn-primary add-new-item float-right">Add New Item</a>
+
+    </div>
+</div>
+
+<div class="card-body">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    Item
+                </th>
+                <th>
+                    Quantity Requested
+                </th>
+                <th>
+                    Quantity Fulfilled
+                </th>
+                <th>
+                    Status
+                </th>
+                <th colspan="3" class="text-center">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model != null && Model.List != null && Model.List.Count > default(int))
+            {
+                foreach (var item in Model.List)
+                {
+                    <tr>
+                        <td>@item.Item</td>
+                        <td>@item.QuantityRequested</td>
+                        <td>@item.QuantityFulfilled</td>
+                        <td>@item.Status</td>
+
+                        <td class="text-center">
+                            @if (item.QuantityRequested != item.QuantityFulfilled)
+                            {
+                                <a href="javascript:void(0);" data-id="@item.Id" data-itemid="@item.ItemId" data-qty="@item.QuantityRequested" class="icon-fulfillment-log text-success">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </a>
+                            }
+                        </td>
+                        <td class="text-center">
+                            <a href="javascript:void(0);" data-id="@item.Id" class="icon-edit text-info"><i class="fas fa-edit"></i></a>
+                        </td>
+
+                        <td class="text-center">
+                            <a href="javascript:void(0);" data-id="@item.Id" class="icon-delete text-danger"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td class="text-center text-danger" colspan="7">
+                        There is currently no content to display
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script src="@Url.Content("~/custom-js/order-line/list.js")"></script>
